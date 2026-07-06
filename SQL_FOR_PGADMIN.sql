@@ -1,12 +1,6 @@
--- ============================================================================
--- SQL СКРИПТЫ ДЛЯ СОЗДАНИЯ ТАБЛИЦ CRM СИСТЕМЫ
--- База данных: CRMbank
--- СУБД: PostgreSQL
--- Скопируй весь текст и вставь в pgAdmin Query Tool
--- ============================================================================
 
 -- 1. ТАБЛИЦА STATUS (Статусы обращений)
-CREATE TABLE status (
+CREATE TABLE IF NOT EXISTS status (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) UNIQUE NOT NULL,
     description TEXT,
@@ -15,7 +9,7 @@ CREATE TABLE status (
 );
 
 -- 2. ТАБЛИЦА PRIORITY (Приоритеты)
-CREATE TABLE priority (
+CREATE TABLE IF NOT EXISTS priority (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     level INT NOT NULL,
@@ -23,7 +17,7 @@ CREATE TABLE priority (
 );
 
 -- 3. ТАБЛИЦА CHANNEL (Каналы)
-CREATE TABLE channel (
+CREATE TABLE IF NOT EXISTS channel (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) UNIQUE NOT NULL,
     description TEXT,
@@ -31,7 +25,7 @@ CREATE TABLE channel (
 );
 
 -- 4. ТАБЛИЦА CLIENT (Клиенты)
-CREATE TABLE client (
+CREATE TABLE IF NOT EXISTS client (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
@@ -45,7 +39,7 @@ CREATE TABLE client (
 );
 
 -- 5. ТАБЛИЦА OPERATOR (Операторы)
-CREATE TABLE operator (
+CREATE TABLE IF NOT EXISTS operator (
     id SERIAL PRIMARY KEY,
     login VARCHAR(50) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
@@ -59,7 +53,7 @@ CREATE TABLE operator (
 );
 
 -- 6. ТАБЛИЦА TICKET (Обращения)
-CREATE TABLE ticket (
+CREATE TABLE IF NOT EXISTS ticket (
     id SERIAL PRIMARY KEY,
     title VARCHAR(200) NOT NULL,
     description TEXT NOT NULL,
@@ -79,7 +73,7 @@ CREATE TABLE ticket (
 );
 
 -- 7. ТАБЛИЦА MESSAGE (Сообщения)
-CREATE TABLE message (
+CREATE TABLE IF NOT EXISTS message (
     id SERIAL PRIMARY KEY,
     text TEXT NOT NULL,
     is_from_client BOOLEAN NOT NULL,
@@ -91,7 +85,7 @@ CREATE TABLE message (
 );
 
 -- 8. ТАБЛИЦА ATTACHMENT (Прикрепленные файлы)
-CREATE TABLE attachment (
+CREATE TABLE IF NOT EXISTS attachment (
     id SERIAL PRIMARY KEY,
     file_name VARCHAR(255) NOT NULL,
     file_path TEXT NOT NULL,
@@ -105,7 +99,7 @@ CREATE TABLE attachment (
 );
 
 -- 9. ТАБЛИЦА TICKET_HISTORY (История изменений)
-CREATE TABLE ticket_history (
+CREATE TABLE IF NOT EXISTS ticket_history (
     id SERIAL PRIMARY KEY,
     ticket_id INT NOT NULL,
     field_name VARCHAR(100) NOT NULL,
@@ -140,14 +134,16 @@ INSERT INTO status (name, description, "order", is_active) VALUES
 ('InProgress', 'В обработке', 2, true),
 ('WaitingClient', 'Ожидание клиента', 3, true),
 ('Resolved', 'Решено', 4, true),
-('Closed', 'Закрыто', 5, true);
+('Closed', 'Закрыто', 5, true)
+ON CONFLICT (name) DO NOTHING;
 
 -- Заполнение таблицы PRIORITY
 INSERT INTO priority (name, level, color_code) VALUES
 ('Low', 1, '#4CAF50'),
 ('Medium', 2, '#FFC107'),
 ('High', 3, '#FF9800'),
-('Critical', 4, '#F44336');
+('Critical', 4, '#F44336')
+ON CONFLICT (name) DO NOTHING;
 
 -- Заполнение таблицы CHANNEL
 INSERT INTO channel (name, description, is_active) VALUES
@@ -155,7 +151,8 @@ INSERT INTO channel (name, description, is_active) VALUES
 ('Chat', 'Обращение через чат', true),
 ('Email', 'Обращение через email', true),
 ('MobileApp', 'Обращение через мобильное приложение', true),
-('Website', 'Обращение через веб-сайт', true);
+('Website', 'Обращение через веб-сайт', true)
+ON CONFLICT (name) DO NOTHING;
 
 -- ============================================================================
 -- ТЕСТОВЫЕ ДАННЫЕ (ОПЦИОНАЛЬНО)
