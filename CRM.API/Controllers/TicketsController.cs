@@ -30,7 +30,7 @@ namespace CRM.API.Controllers
         {
             var ticket = await _ticketService.GetByIdAsync(id);
             if (ticket == null)
-                return NotFound($"Ticket with ID {id} not found");
+                return NotFound($"Обращение с ID {id} не найдено");
             return Ok(ticket);
         }
 
@@ -76,7 +76,7 @@ namespace CRM.API.Controllers
         {
             var ticket = await _ticketService.UpdateAsync(id, dto);
             if (ticket == null)
-                return NotFound($"Ticket with ID {id} not found");
+                return NotFound($"Обращение с ID {id} не найдено");
             return Ok(ticket);
         }
 
@@ -87,7 +87,7 @@ namespace CRM.API.Controllers
             var operatorName = User.Identity?.Name ?? "System";
             var ticket = await _ticketService.ChangeStatusAsync(id, statusId, operatorName);
             if (ticket == null)
-                return NotFound($"Ticket with ID {id} not found");
+                return NotFound($"Обращение с ID {id} не найдено");
             return Ok(ticket);
         }
 
@@ -97,7 +97,7 @@ namespace CRM.API.Controllers
         {
             var result = await _ticketService.DeleteAsync(id);
             if (!result)
-                return NotFound($"Ticket with ID {id} not found");
+                return NotFound($"Обращение с ID {id} не найдено");
             return NoContent();
         }
     }

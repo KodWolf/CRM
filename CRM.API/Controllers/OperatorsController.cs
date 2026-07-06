@@ -60,7 +60,7 @@ namespace CRM.API.Controllers
         {
             var op = await _operatorService.GetByIdAsync(id);
             if (op == null)
-                return NotFound($"Operator with ID {id} not found");
+                return NotFound($"Оператор с ID {id} не найден");
             return Ok(op);
         }
 
@@ -70,7 +70,7 @@ namespace CRM.API.Controllers
         {
             var result = await _operatorService.ChangeRoleAsync(id, role);
             if (!result)
-                return NotFound($"Operator with ID {id} not found");
+                return NotFound($"Оператор с ID {id} не найден");
             return Ok();
         }
 
@@ -80,7 +80,7 @@ namespace CRM.API.Controllers
         {
             var result = await _operatorService.DeactivateAsync(id);
             if (!result)
-                return NotFound($"Operator with ID {id} not found");
+                return NotFound($"Оператор с ID {id} не найден");
             return Ok();
         }
 
@@ -90,7 +90,7 @@ namespace CRM.API.Controllers
         {
             var result = await _operatorService.ActivateAsync(id);
             if (!result)
-                return NotFound($"Operator with ID {id} not found");
+                return NotFound($"Оператор с ID {id} не найден");
             return Ok();
         }
     }
